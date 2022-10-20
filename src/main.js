@@ -10,6 +10,7 @@ function setCardType(type) {
     visa: ["#2D57F2", "#436D99"],
     mastercard: ["#DF6F29", "#C69347"],
     americanexpress: ["#213239", "#3590B5"],
+    discover: ["#D87204", "#F4AA5E"],
     default: ["black", "gray"],
   }
   ccColor01.setAttribute("fill", colors[type][0])
@@ -69,6 +70,11 @@ const cardNumberPattern = {
     },
     {
       mask: "0000 0000 0000 0000",
+      regex: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+      cardtype: "discover",
+    },
+    {
+      mask: "0000 0000 0000 0000",
       cardtype: "default",
     },
   ],
@@ -124,34 +130,26 @@ cardNumberMasked.on("accept", () => {
   updateCardNumber(cardNumberMasked.value)
 })
 
-function updateCardNumber(number){
+function updateCardNumber(number) {
   const ccNumber = document.querySelector(".cc-number")
   ccNumber.innerText = number.length === 0 ? "1234 5678 9123 4567" : number
 }
 
 /* Capturando e inserindo conteúdo da data de expiração do cartão */
 
-expirationDateMasked.on("accept", () =>{
+expirationDateMasked.on("accept", () => {
   updateExpirationDate(expirationDateMasked.value)
 })
 
-function updateExpirationDate(date){
+function updateExpirationDate(date) {
   const ccExpiration = document.querySelector(".cc-extra .value")
   ccExpiration.innerText = date.length === 0 ? "02/32" : date
 }
 
-/* 
+
+
+/*   Para adicionar posteriormente 
 const cardsDynamicMasks = [
-    {
-        mask: '0000 000000 00000',
-        regex: /^3[47]\d{0,13}/,
-        cardtype: 'american express'
-    },
-    {
-        mask: '0000 0000 0000 0000',
-        regex: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
-        cardtype: 'discover'
-    },
     {
         mask: '0000 000000 0000',
         regex: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
